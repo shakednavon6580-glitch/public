@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Image from 'next/image'
+import { ClickableImage } from '@/components/shared/ClickableImage'
 import { getAssetById, impactCopy, impactPoints } from '@/lib/narrative-content'
 
 export function EnvironmentalImpact() {
@@ -28,18 +28,21 @@ export function EnvironmentalImpact() {
           <p className="mt-4 text-body text-text-secondary">{impactCopy.intro}</p>
         </motion.div>
         <div className="grid gap-8 lg:grid-cols-[1.25fr,1fr]">
-          <div className="surface-card relative aspect-[4/3] overflow-hidden">
-            <Image
-              src={impactVisual.src}
-              alt={impactVisual.alt}
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 58vw"
-            />
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-text-primary/70 to-transparent p-5 text-sm text-surface">
-              Atmospheric overview from the ecological massing study.
-            </div>
-          </div>
+          <ClickableImage
+            title="Environmental contribution visual"
+            description="Atmospheric overview from the ecological massing study."
+            triggerClassName="surface-card relative aspect-[4/3] overflow-hidden"
+            imageClassName="object-cover"
+            src={impactVisual.src}
+            alt={impactVisual.alt}
+            fill
+            sizes="(max-width: 1024px) 100vw, 58vw"
+            overlay={
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-text-primary/70 to-transparent p-5 text-sm text-surface">
+                Atmospheric overview from the ecological massing study.
+              </div>
+            }
+          />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
             {impactPoints.map((impact, index) => (
               <motion.article

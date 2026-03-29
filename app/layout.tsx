@@ -4,7 +4,8 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Eco Kernelios | Ecological Transformation Narrative',
-  description: 'A single-page ecological architecture presentation: observe, compare, reimagine, validate, and conclude.',
+  description:
+    'A single-page ecological architecture presentation through cinematic comparison, reimagined spaces, environmental impact, and student voices.',
 }
 
 export default function RootLayout({

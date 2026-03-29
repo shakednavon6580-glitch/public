@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
-import Image from 'next/image'
+import { ClickableImage } from '@/components/shared/ClickableImage'
 import { getAssetById, testimonialCopy, testimonials } from '@/lib/narrative-content'
 
 export function Testimonials() {
@@ -24,7 +24,7 @@ export function Testimonials() {
       id="testimonials"
       data-section-id="testimonials"
       aria-labelledby="testimonials-title"
-      className="bg-background py-20 md:py-28"
+      className="bg-background pb-16 pt-20 md:pb-20 md:pt-28"
     >
       <div className="section-shell">
         <motion.div
@@ -41,16 +41,17 @@ export function Testimonials() {
         </motion.div>
 
         <div className="grid items-center gap-8 lg:grid-cols-[1.1fr,1fr]">
-          <div className="surface-card relative aspect-[4/3] overflow-hidden">
-            <Image
-              src={lectureVisual.src}
-              alt={lectureVisual.alt}
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 52vw"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-text-primary/45 to-transparent" />
-          </div>
+          <ClickableImage
+            title="Student testimonials contextual image"
+            description="Contextual lecture image paired with the student voices section."
+            triggerClassName="surface-card relative aspect-[4/3] overflow-hidden"
+            imageClassName="object-cover"
+            src={lectureVisual.src}
+            alt={lectureVisual.alt}
+            fill
+            sizes="(max-width: 1024px) 100vw, 52vw"
+            overlay={<div className="absolute inset-0 bg-gradient-to-t from-text-primary/45 to-transparent" />}
+          />
           <article
             className="surface-card p-6 md:p-8"
             aria-roledescription="carousel"

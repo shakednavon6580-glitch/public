@@ -3,8 +3,8 @@ import { Comparison } from '@/components/Comparison'
 import { StoryGallery } from '@/components/StoryGallery'
 import { EnvironmentalImpact } from '@/components/EnvironmentalImpact'
 import { Testimonials } from '@/components/Testimonials'
-import { FinalTakeaway } from '@/components/FinalTakeaway'
 import { NarrativeHeader } from '@/components/NarrativeHeader'
+import { PublicFooter } from '@/components/PublicFooter'
 
 export default function Home() {
   return (
@@ -19,8 +19,8 @@ export default function Home() {
         <StoryGallery />
         <EnvironmentalImpact />
         <Testimonials />
-        <FinalTakeaway />
       </main>
+      <PublicFooter />
     </>
   )
 }

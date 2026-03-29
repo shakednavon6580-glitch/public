@@ -8,8 +8,7 @@ export type SectionType =
   | "comparison"
   | "story"
   | "environmental_impact"
-  | "testimonials"
-  | "final_takeaway";
+  | "testimonials";
 
 export type MediaType = "source_sketch" | "image" | "video" | "thumbnail";
 
@@ -23,7 +22,6 @@ export interface Project {
   overviewText?: string;
   academicContextText?: string;
   ecologicalFramingText?: string;
-  finalTakeawayText?: string;
   status: ProjectStatus;
   publishedAt?: string;
   createdBy: string;

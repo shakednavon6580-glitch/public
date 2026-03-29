@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Image from 'next/image'
+import { ClickableImage } from '@/components/shared/ClickableImage'
 import { getAssetById, storyBlocks } from '@/lib/narrative-content'
 
 export function StoryGallery() {
@@ -37,27 +37,31 @@ export function StoryGallery() {
             }`}
           >
             <div className="relative">
-              <div className="surface-card relative aspect-[16/10] overflow-hidden">
-                <Image
-                  src={afterAsset.src}
-                  alt={afterAsset.alt}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 52vw"
-                />
-              </div>
-              <div className="surface-card absolute -bottom-6 right-5 hidden aspect-[4/3] w-44 overflow-hidden md:block lg:w-48">
-                <Image
-                  src={beforeAsset.src}
-                  alt={beforeAsset.alt}
-                  fill
-                  className="object-cover"
-                  sizes="192px"
-                />
-                <span className="absolute left-2 top-2 rounded-full bg-[rgba(31,42,34,0.8)] px-2 py-1 text-[10px] font-medium uppercase tracking-wide text-surface">
-                  Original
-                </span>
-              </div>
+              <ClickableImage
+                title={`${item.title} ecological vision`}
+                description={item.sentence}
+                triggerClassName="surface-card relative aspect-[16/10] overflow-hidden"
+                imageClassName="object-cover"
+                src={afterAsset.src}
+                alt={afterAsset.alt}
+                fill
+                sizes="(max-width: 1024px) 100vw, 52vw"
+              />
+              <ClickableImage
+                title={`${item.title} original`}
+                description={`Original reference for ${item.title.toLowerCase()}.`}
+                triggerClassName="surface-card absolute -bottom-6 right-5 hidden aspect-[4/3] w-44 overflow-hidden md:block lg:w-48"
+                imageClassName="object-cover"
+                src={beforeAsset.src}
+                alt={beforeAsset.alt}
+                fill
+                sizes="192px"
+                overlay={
+                  <span className="absolute left-2 top-2 rounded-full bg-[rgba(31,42,34,0.8)] px-2 py-1 text-[10px] font-medium uppercase tracking-wide text-surface">
+                    Original
+                  </span>
+                }
+              />
             </div>
             <div>
               <h3 className="text-title font-semibold tracking-tight text-text-primary">

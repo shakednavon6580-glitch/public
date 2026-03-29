@@ -4,7 +4,6 @@ export type NarrativeSectionId =
   | 'story'
   | 'impact'
   | 'testimonials'
-  | 'takeaway'
 
 export type AssetKind = 'video' | 'image' | 'metadata'
 
@@ -58,21 +57,25 @@ export const narrativeSectionOrder: NarrativeSectionId[] = [
   'story',
   'impact',
   'testimonials',
-  'takeaway',
 ]
 
 export const anchorNavItems = [
-  { id: 'hero', label: 'Observe' },
   { id: 'comparison', label: 'Compare' },
   { id: 'story', label: 'Reimagine' },
   { id: 'impact', label: 'Experience' },
   { id: 'testimonials', label: 'Validate' },
-  { id: 'takeaway', label: 'Conclude' },
 ] as const
 
-export const heroCopy = {
+export const brandCopy = {
   title: 'Eco Kernelios',
   subtitle: 'From inherited concrete to a living campus ecosystem.',
+}
+
+export const heroCopy = {
+  eyebrow: 'Presentation-first ecological campus narrative',
+  title: 'From inherited concrete to a living campus ecosystem.',
+  subtitle:
+    'A cinematic walkthrough of how comparison, reimagined space, and lived student experience reshape the Eco Kernelios story.',
 }
 
 export const comparisonCopy = {
@@ -86,10 +89,10 @@ export const comparisonCopy = {
 
 export const comparisonScenes: ComparisonScene[] = [
   {
-    id: 'atrium-overview',
-    title: 'Atrium Overview',
+    id: 'campus-overview',
+    title: 'Campus Overview',
     descriptor: 'Campus Core',
-    beforeAssetId: 'new-building',
+    beforeAssetId: 'original-structure',
     afterAssetId: 'new-building-above',
     note: 'Envelope surfaces shift from neutral massing to planted ecological infrastructure.',
   },
@@ -97,15 +100,23 @@ export const comparisonScenes: ComparisonScene[] = [
     id: 'side-wing',
     title: 'Side Wing',
     descriptor: 'Urban Edge',
-    beforeAssetId: 'new-side-building',
-    afterAssetId: 'new-building',
+    beforeAssetId: 'original-side-structure',
+    afterAssetId: 'new-side-building',
     note: 'Facade language evolves into shaded, layered bands that reduce heat gain and soften street edges.',
   },
   {
-    id: 'work-studio',
-    title: 'Work Studio',
-    descriptor: 'Interior Shift',
-    beforeAssetId: 'new-office',
+    id: 'office-studio',
+    title: 'Office Studio',
+    descriptor: 'Work Environment',
+    beforeAssetId: 'original-office',
+    afterAssetId: 'new-office',
+    note: 'Work areas shift from dense neutral interiors into calmer spaces with greenery and softer light.',
+  },
+  {
+    id: 'classroom-shift',
+    title: 'Classroom Shift',
+    descriptor: 'Learning Environment',
+    beforeAssetId: 'original-classroom',
     afterAssetId: 'new-classroom',
     note: 'Interiors move from rigid layouts to warmer biophilic settings with calmer material rhythm.',
   },
@@ -121,19 +132,21 @@ export const testimonialCopy = {
   intro: 'Quiet confidence from the people who study in the transformed spaces.',
 }
 
-export const finalCopy = {
-  heading: 'Final Takeaway',
-  sentence:
-    'Ecological architecture is not a style choice. It is a long-term learning environment for people, climate, and place.',
+export const footerCopy = {
+  designer: 'Shaked Navon',
+  rights: '© All rights reserved Shaked Navon 2026',
+  linkedInLabel: 'LinkedIn',
+  linkedInHref:
+    'https://www.linkedin.com/in/shaked-navon-801053393/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BswuM4w09RJG8viIZhj8AUw%3D%3D',
 }
 
 export const assetRegistry: AssetRef[] = [
   {
     id: 'kernelios-video',
-    filename: 'kernelios-video.mp4',
-    src: '/assets/kernelios-video.mp4',
+    filename: 'kernelios-hero-drone-reveal.mp4',
+    src: '/assets/kernelios-hero-drone-reveal.mp4',
     kind: 'video',
-    alt: 'Aerial camera movement revealing the ecological redesign of the Kernelios campus.',
+    alt: 'Cinematic drone reveal passing over the Eco Kernelios campus transformation.',
     usage: ['hero-background'],
     renderable: true,
   },
@@ -152,7 +165,7 @@ export const assetRegistry: AssetRef[] = [
     src: '/assets/new-building-above.png',
     kind: 'image',
     alt: 'Top-down ecological massing study of the redesigned campus building.',
-    usage: ['impact-visual', 'takeaway-surface'],
+    usage: ['impact-visual'],
     renderable: true,
   },
   {
@@ -192,14 +205,22 @@ export const assetRegistry: AssetRef[] = [
     renderable: true,
   },
   {
+    id: 'kernelios-header-logo',
+    filename: 'kernelios-header-logo.png',
+    src: '/assets/kernelios-header-logo.png',
+    kind: 'image',
+    alt: 'Kernelios header logo with brand mark and yellow ribbon.',
+    usage: ['site-brand'],
+    renderable: true,
+  },
+  {
     id: 'original-classroom',
     filename: 'original-classrom.jpeg',
     src: '/assets/original-classrom.jpeg',
     kind: 'image',
     alt: 'Original classroom condition before ecological redesign.',
-    usage: ['excluded-from-ui'],
-    renderable: false,
-    note: 'Excluded intentionally because the local file is unreadable in this environment (EPERM).',
+    usage: ['comparison-before', 'story-before-classroom'],
+    renderable: true,
   },
   {
     id: 'original-office',
@@ -207,9 +228,8 @@ export const assetRegistry: AssetRef[] = [
     src: '/assets/original-office.jpeg',
     kind: 'image',
     alt: 'Original office condition before ecological redesign.',
-    usage: ['excluded-from-ui'],
-    renderable: false,
-    note: 'Excluded intentionally because the local file is unreadable in this environment (EPERM).',
+    usage: ['comparison-before', 'story-before-office'],
+    renderable: true,
   },
   {
     id: 'original-side-structure',
@@ -217,9 +237,8 @@ export const assetRegistry: AssetRef[] = [
     src: '/assets/original-side-structure.jpeg',
     kind: 'image',
     alt: 'Original side-building condition before ecological redesign.',
-    usage: ['excluded-from-ui'],
-    renderable: false,
-    note: 'Excluded intentionally because the local file is unreadable in this environment (EPERM).',
+    usage: ['comparison-before', 'story-before-side-building'],
+    renderable: true,
   },
   {
     id: 'original-structure',
@@ -227,9 +246,8 @@ export const assetRegistry: AssetRef[] = [
     src: '/assets/original-sturcture.jpeg',
     kind: 'image',
     alt: 'Original architectural structure used as baseline for comparison.',
-    usage: ['excluded-from-ui'],
-    renderable: false,
-    note: 'Excluded intentionally because the local file is unreadable in this environment (EPERM).',
+    usage: ['comparison-before', 'story-before-campus'],
+    renderable: true,
   },
   {
     id: 'system-ds-store',
@@ -248,21 +266,21 @@ export const storyBlocks: StoryBlock[] = [
     id: 'classroom',
     title: 'Reimagine Learning',
     sentence: 'Classrooms evolve from sealed rooms into daylight-led ecosystems for focus and well-being.',
-    beforeAssetId: 'lecture',
+    beforeAssetId: 'original-classroom',
     afterAssetId: 'new-classroom',
   },
   {
     id: 'office',
     title: 'Reimagine Work',
     sentence: 'Workspaces shift toward calm natural materials that reduce stress and support deep attention.',
-    beforeAssetId: 'new-building-above',
+    beforeAssetId: 'original-office',
     afterAssetId: 'new-office',
   },
   {
     id: 'campus',
     title: 'Reimagine Campus Edges',
     sentence: 'Peripheral buildings become climate-active layers that reconnect architecture with landscape.',
-    beforeAssetId: 'new-building',
+    beforeAssetId: 'original-side-structure',
     afterAssetId: 'new-side-building',
   },
 ]
