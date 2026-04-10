@@ -16,6 +16,7 @@
     --color-solar-yellow: #f2c94c;
     --color-warm-highlight: #e8b931;
     --ring-focus: #2f5d3a;
+    --narrative-header-height: 104px;
   }
 
   html {
@@ -103,5 +104,9 @@
 
   .skip-link {
     @apply sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[80] focus:rounded-md focus:bg-green-deep focus:px-4 focus:py-2 focus:text-surface;
+  }
+
+  .header-spacer {
+    height: var(--narrative-header-height);
   }
 }

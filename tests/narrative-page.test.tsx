@@ -7,6 +7,30 @@ import Home from '@/app/page'
 import { assetRegistry, comparisonScenes, narrativeSectionOrder } from '@/lib/narrative-content'
 
 describe('Eco Kernelios narrative page', () => {
+  const mockSectionRects = () => {
+    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function () {
+      const id = this.getAttribute('id')
+      const topById: Record<string, number> = {
+        comparison: 280,
+        story: 720,
+        impact: 1120,
+        testimonials: 1520,
+      }
+
+      return {
+        x: 0,
+        y: topById[id ?? ''] ?? 0,
+        top: topById[id ?? ''] ?? 0,
+        left: 0,
+        bottom: (topById[id ?? ''] ?? 0) + 200,
+        right: 1200,
+        width: 1200,
+        height: 200,
+        toJSON: () => ({}),
+      } as DOMRect
+    })
+  }
+
   it('renders sections in the expected narrative order', () => {
     const { container } = render(React.createElement(Home))
     const sectionIds = Array.from(container.querySelectorAll('section[data-section-id]')).map((section) =>
@@ -97,6 +121,82 @@ describe('Eco Kernelios narrative page', () => {
     )
     expect(linkedInLink).toHaveAttribute('target', '_blank')
     expect(linkedInLink).toHaveAttribute('rel', 'noreferrer noopener')
+  })
+
+  it('renders the Reimagine Campus Edges block with balanced media and supporting thumbnail structure', () => {
+    render(React.createElement(Home))
+
+    const block = screen.getByTestId('story-block-campus')
+    const media = screen.getByTestId('story-media-campus')
+    const copy = screen.getByTestId('story-copy-campus')
+    const thumbnail = screen.getByTestId('story-thumbnail-campus')
+
+    expect(within(block).getByRole('heading', { name: 'Reimagine Campus Edges' })).toBeInTheDocument()
+    expect(within(block).getByText(/Peripheral buildings become climate-active layers/i)).toBeInTheDocument()
+    expect(within(media).getByRole('button', { name: 'Enlarge image: Reimagine Campus Edges ecological vision' })).toBeInTheDocument()
+    expect(within(media).getByRole('button', { name: 'Enlarge image: Reimagine Campus Edges original' })).toBeInTheDocument()
+    expect(media.className).toContain('max-w-[34rem]')
+    expect(copy.className).toContain('lg:max-w-[30rem]')
+    expect(thumbnail.className).toContain('w-32')
+  })
+
+  it('uses responsive composition classes so the campus image and copy rebalance across breakpoints', () => {
+    render(React.createElement(Home))
+
+    const block = screen.getByTestId('story-block-campus')
+    const mainImageButton = within(screen.getByTestId('story-media-campus')).getByRole('button', {
+      name: 'Enlarge image: Reimagine Campus Edges ecological vision',
+    })
+    const thumbnailWrap = screen.getByTestId('story-thumbnail-wrap-campus')
+
+    expect(block.className).toContain('lg:grid-cols-[minmax(0,1.02fr)_minmax(20rem,0.88fr)]')
+    expect(mainImageButton.className).toContain('aspect-[5/4]')
+    expect(mainImageButton.className).toContain('lg:aspect-[1.16/1]')
+    expect(thumbnailWrap.className).not.toContain('absolute')
+  })
+
+  it('keeps the header visible on first render and reserves space below it', () => {
+    render(React.createElement(Home))
+
+    const header = screen.getByRole('banner')
+    const spacer = screen.getByTestId('narrative-header-spacer')
+
+    expect(header).toHaveAttribute('data-hidden', 'false')
+    expect(spacer).toBeInTheDocument()
+  })
+
+  it('hides the header on downward scroll past the threshold and shows it again when scrolling up', async () => {
+    mockSectionRects()
+    render(React.createElement(Home))
+
+    const header = screen.getByRole('banner')
+
+    Object.defineProperty(window, 'scrollY', { writable: true, configurable: true, value: 0 })
+    window.dispatchEvent(new Event('scroll'))
+    await vi.waitFor(() => expect(header).toHaveAttribute('data-hidden', 'false'))
+
+    window.scrollY = 180
+    window.dispatchEvent(new Event('scroll'))
+    await vi.waitFor(() => expect(header).toHaveAttribute('data-hidden', 'true'))
+
+    window.scrollY = 110
+    window.dispatchEvent(new Event('scroll'))
+    await vi.waitFor(() => expect(header).toHaveAttribute('data-hidden', 'false'))
+  })
+
+  it('restores the header when returning near the top after a deep scroll', async () => {
+    mockSectionRects()
+    render(React.createElement(Home))
+
+    const header = screen.getByRole('banner')
+
+    Object.defineProperty(window, 'scrollY', { writable: true, configurable: true, value: 220 })
+    window.dispatchEvent(new Event('scroll'))
+    await vi.waitFor(() => expect(header).toHaveAttribute('data-hidden', 'true'))
+
+    window.scrollY = 16
+    window.dispatchEvent(new Event('scroll'))
+    await vi.waitFor(() => expect(header).toHaveAttribute('data-hidden', 'false'))
   })
 
   it('opens and closes enlarged image previews with keyboard and backdrop support', async () => {

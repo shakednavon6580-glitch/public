@@ -13,6 +13,7 @@ export default function Home() {
         Skip to narrative content
       </a>
       <NarrativeHeader />
+      <div aria-hidden="true" data-testid="narrative-header-spacer" className="header-spacer" />
       <main className="min-h-screen bg-background">
         <Hero />
         <Comparison />
